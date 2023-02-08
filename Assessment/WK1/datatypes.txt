@@ -1,0 +1,24 @@
+a.A company’s profit
+Decimal - Because this allows for the correct level of precision for 
+
+b.A person’s weight
+It depends on what unit of measure you're using to weigh the individual. 
+If KG or LB: Float would work due to the decimal values. 
+If ST & LB: 1 String or 2 Integers due to the need to store 2 values.
+
+c.A book title
+String - It's a text value that can contain the widest range of characters. 
+
+d.Average rainfall in September
+Float - Because this allows for decimal numeric values to be recorded.
+
+e.Number of runs scored by a cricketer
+Integer - A numeric value with no need to a decimal component. 
+
+f.A telephone number, including area code
+String - Because it makes formatting and storing the numbers far safer than a numerical variable type.
+
+g.A dress size
+Depends on the sizing scheme.
+If its a numerical scheme, (8, 10, 12), then an integer will work. 
+If its a text based scheme, (S, M, L), then a string will be required. 
