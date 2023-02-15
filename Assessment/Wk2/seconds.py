@@ -40,5 +40,6 @@ tmp_conv=str(timedelta(seconds=var_seconds))
 
 a_parts=tmp_conv.split(":")
 
+# I noticed the Minutes value column was misaligned on the assignments layout, but assumed that was an oversight. 
 print ( f'{"Input":6} {"Hours":>10} {"Minutes":>10} {"Seconds":>10} ')
 print ( f'{var_seconds:<6} {int(a_parts[0]):10} {int(a_parts[1]):10} {int(a_parts[2]):10} ')
