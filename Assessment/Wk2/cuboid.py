@@ -1,15 +1,15 @@
 #  Calculate cuboid stats
-
+###
 # helpers
-
+###
 ## function to get an integer with error checking
 def get_int(input_prompt, min_val=int(1), max_val=int(100)):
     return_value=int(0)
     int_val=int(-1)
 
     try:
-        while not ((int_val >= min_int & int_val <= max_val)) :
-            get_val=input(input_prompt + f" (Min: {str(min_int)} Max: {str(max_int)} Exit: 0)")
+        while not ((int_val >= min_val and int_val <= max_val)) :
+            get_val=input(input_prompt + f" (Min: {str(min_val)} Max: {str(max_val)} Exit: 0)")
             int_val=int(get_val)
 
             ## exit if select 0
@@ -22,23 +22,20 @@ def get_int(input_prompt, min_val=int(1), max_val=int(100)):
     finally:
         return return_value
 
-
-
 # params
 min_int=int(1)
 max_int=int(100)
 
 print ( 'Welcome to the Cuboid Calculator' )
-print ( '-' * 40 )
+print ( '-' * 32 )
 
 cub_width=get_int("Width  (cm): ")
 cub_height=get_int("Height (cm): ")
 cub_length=get_int("Length (cm): ")
 
-print (type(cub_width))
-print (type(cub_height))
-print (type(cub_length))
-
+# print (type(cub_width))
+# print (type(cub_height))
+# print (type(cub_length))
 
 if ( cub_width > int(0) and cub_height > int(0) and cub_length > int(0) ) :
     surface= 2 * ( ( cub_width * cub_height ) + ( cub_height * cub_length ) + ( cub_length * cub_width ) )
