@@ -39,3 +39,23 @@ def get_float(input_prompt, min_val=float(0.01), max_val=float(100.00)):
         print ( f"Invalid '{input_prompt}' value entered '{get_val}'" ) 
     finally:
         return return_value
+
+## function to get an Y/N with error checking
+def get_y_n ( input_prompt ):
+    return_value=""
+    var_val = "Z" 
+
+    try:
+        while not ( var_val == "Y" or var_val == "N" ) :
+            var_val=input(input_prompt + f" (Y/N) ").upper()
+            
+            ## exit if select 0
+            if  var_val=='': 
+                break
+        
+        return_value=var_val
+    except:
+        print ( f"Invalid '{input_prompt}' value entered '" + var_val + "'" ) 
+    finally:
+        return return_value
+
