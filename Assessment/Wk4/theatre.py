@@ -1,5 +1,7 @@
 # calculate ticket costs for theatre bookings
 
+import time
+
 # helpers
 
 ## function to get an integer with error checking
@@ -96,6 +98,9 @@ else :
 
 bill_total=ttl_bill_pre_discount - bill_discount + p_n_p_cost
 
+# generate bill reference 
+bill_ref=str(time.time())[3:10]
+
 # output bill 
 print ( )
 print ( "The Sandford Paladium")
@@ -103,6 +108,7 @@ print ( "*" * 21 )
 print ()
 
 print ( f'{num_in_party} Tickets for Snakes! The Musical' )
+print ( f'{"Order Ref: " + bill_ref:>35}')
 print ( '-' * 35 )
 if is_collection == "Y" :
     print ( "*" * 9, "   COLLECTION  ", "*" * 9 )
