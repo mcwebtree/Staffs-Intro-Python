@@ -50,7 +50,7 @@ def print_grid(d_grid, i_clear=0, i_reveal = 0 ):
         print ( "Kims Game v0.1")
         print ( "--------------------------")
         print ( "" )
- 
+
     print ( " " * 5 + "  C 0 1 2 3 C" )
     print ( " " * 5 + "R |---------|" )
     
