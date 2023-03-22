@@ -217,7 +217,7 @@ def find_space(length):
 #/// I can write it a few other ways, but thought I'd keep this one, its a bit overly complex but works.
 def swap_direction(direction):
     # Create a dictionary to map the values to their translated values
-    translation_dict = dict([('N', 'S'),('S', 'N'), ('E', 'W'), ('W', 'E')])
+    translation_dict = dict([('N', 'S'),('S', 'N'), ('E', 'E'), ('W', 'E')])
     direction = direction.upper()
 
     # Swap the direction if it exists in the translation dictionary
@@ -373,10 +373,10 @@ if f_debug > 1:
     a = input ("Press ENTER to continue: ")
 
 # on automatic you need to create the ships to place
-if s_game_type == "S":
-    place_ships ( )
-else:
+if s_game_type == "A":
     create_ships ( )
+else:
+    place_ships ( )
 
 num_placed_ships = len(ships)
 

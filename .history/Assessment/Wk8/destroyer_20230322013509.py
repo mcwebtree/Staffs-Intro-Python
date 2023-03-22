@@ -217,7 +217,7 @@ def find_space(length):
 #/// I can write it a few other ways, but thought I'd keep this one, its a bit overly complex but works.
 def swap_direction(direction):
     # Create a dictionary to map the values to their translated values
-    translation_dict = dict([('N', 'S'),('S', 'N'), ('E', 'W'), ('W', 'E')])
+    translation_dict = dict([('N', 'S'),('S', 'N'), ('E', 'E'), ('W', 'E')])
     direction = direction.upper()
 
     # Swap the direction if it exists in the translation dictionary
