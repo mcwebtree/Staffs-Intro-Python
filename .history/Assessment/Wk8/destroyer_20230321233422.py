@@ -6,7 +6,6 @@ f_debug = 0
 import pprint as pp
 import random as r
 import re
-import time as t
 
 # Screen control params
 UP = '\033[1A'
@@ -17,7 +16,6 @@ BLINKON = '\033[32;5m'
 BLINKOFF = '\033[0m'
 REVON = "\033[7m"
 REVOFF = "\033[0m"
-BLUEON = "\033[34m" # Blue text.
 REDON= "\033[31m" #	Red text.
 GREENON = "\033[32m" # 	Green text.
 COLOUROFF = "\033[0m"	#Reset special formatting (such as colour).
@@ -59,24 +57,12 @@ def print_board(f_live = 1):
 
     #// replace with RegEx
     pattern = r'\[[A-Z]\]'
-    s_output = re.sub(pattern, lambda match:  colour_ship(match.group()[1]) , s_output)
+    s_output = re.sub(pattern, lambda match: REDON + match.group() + COLOUROFF , s_output)
     pattern = r'\[\-\]'
     s_output = re.sub(pattern, lambda match: GREENON + match.group() + COLOUROFF , s_output)
 
     print ( s_output )
         
-def is_sunk(s_code):
-    if ships[s_code]["Hits"] == ships[s_code]["Length"]:
-        return True
-    else: 
-        return False
-
-def colour_ship(s_code):
-    if is_sunk( s_code ):
-        return BLUEON  + '[' + s_code + ']' + COLOUROFF
-    else :
-        return REDON  + '[' + s_code + ']' + COLOUROFF
-
 #/// This places a pre defined array of ships in the grid. 
 def place_ships():
     for key, ship in ships.items():
@@ -156,19 +142,10 @@ def find_space(length):
                 if xc < 0 or xc >= board_width or yr < 0 or yr >= board_height or targets[yr][xc] != "-":
                     if f_debug > 0:
                         print (f'Out of range error or taken {yr},{xc}')
-                        print ( f'Current Direction is {dir}')
-                        t.sleep ( 3 )
 
                     done_swap += 1
                     dir = swap_direction( dir )
-
                     yr, xc = start_r, start_c
-
-                    if f_debug > 0:
-                        print (f'Reset Start co-ord to {yr},{xc}')
-                        print ( f'New Direction is {dir}')
-                        t.sleep ( 3 )
-
                     # if you've tried to swap already, fail. 
                     if done_swap > 1:            
                         ret_val['Locn'].clear()
@@ -260,9 +237,7 @@ def take_shot(s_shot):
         print ( f'Congratulations that was a hit' )
         ships[board[shot_r][shot_c]]["Hits"] += 1
         if ships[board[shot_r][shot_c]]["Hits"] == ships[board[shot_r][shot_c]]["Length"]:
-            print ( f"You've sunk ship {board[shot_r][shot_c]}!" )
-            if (ships_placed-ships_sunk)-1 > 0:
-                print ( f"Only {(ships_placed-ships_sunk)-1} ships to go." )
+            print ( f"You've sunk ship {board[shot_r][shot_c]}! Only {(ships_placed-ships_sunk)-1} ships to go." )
             ships_sunk += 1
     else :
         print ( f'Unlucky, you missed that time' )

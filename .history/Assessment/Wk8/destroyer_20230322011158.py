@@ -73,9 +73,9 @@ def is_sunk(s_code):
 
 def colour_ship(s_code):
     if is_sunk( s_code ):
-        return BLUEON  + '[' + s_code + ']' + COLOUROFF
+        return BLUEON  + s_code + COLOUROFF
     else :
-        return REDON  + '[' + s_code + ']' + COLOUROFF
+        return REDON  + s_code + COLOUROFF
 
 #/// This places a pre defined array of ships in the grid. 
 def place_ships():

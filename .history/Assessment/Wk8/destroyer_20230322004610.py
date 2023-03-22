@@ -1,7 +1,7 @@
 # single ship battleship game. 
 
 ## DEBUG FLAG
-f_debug = 0
+f_debug = 1
 
 import pprint as pp
 import random as r
@@ -17,7 +17,6 @@ BLINKON = '\033[32;5m'
 BLINKOFF = '\033[0m'
 REVON = "\033[7m"
 REVOFF = "\033[0m"
-BLUEON = "\033[34m" # Blue text.
 REDON= "\033[31m" #	Red text.
 GREENON = "\033[32m" # 	Green text.
 COLOUROFF = "\033[0m"	#Reset special formatting (such as colour).
@@ -59,24 +58,12 @@ def print_board(f_live = 1):
 
     #// replace with RegEx
     pattern = r'\[[A-Z]\]'
-    s_output = re.sub(pattern, lambda match:  colour_ship(match.group()[1]) , s_output)
+    s_output = re.sub(pattern, lambda match: REDON + match.group() + COLOUROFF , s_output)
     pattern = r'\[\-\]'
     s_output = re.sub(pattern, lambda match: GREENON + match.group() + COLOUROFF , s_output)
 
     print ( s_output )
         
-def is_sunk(s_code):
-    if ships[s_code]["Hits"] == ships[s_code]["Length"]:
-        return True
-    else: 
-        return False
-
-def colour_ship(s_code):
-    if is_sunk( s_code ):
-        return BLUEON  + '[' + s_code + ']' + COLOUROFF
-    else :
-        return REDON  + '[' + s_code + ']' + COLOUROFF
-
 #/// This places a pre defined array of ships in the grid. 
 def place_ships():
     for key, ship in ships.items():
@@ -260,9 +247,7 @@ def take_shot(s_shot):
         print ( f'Congratulations that was a hit' )
         ships[board[shot_r][shot_c]]["Hits"] += 1
         if ships[board[shot_r][shot_c]]["Hits"] == ships[board[shot_r][shot_c]]["Length"]:
-            print ( f"You've sunk ship {board[shot_r][shot_c]}!" )
-            if (ships_placed-ships_sunk)-1 > 0:
-                print ( f"Only {(ships_placed-ships_sunk)-1} ships to go." )
+            print ( f"You've sunk ship {board[shot_r][shot_c]}! Only {(ships_placed-ships_sunk)-1} ships to go." )
             ships_sunk += 1
     else :
         print ( f'Unlucky, you missed that time' )

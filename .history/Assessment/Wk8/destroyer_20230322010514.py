@@ -59,24 +59,12 @@ def print_board(f_live = 1):
 
     #// replace with RegEx
     pattern = r'\[[A-Z]\]'
-    s_output = re.sub(pattern, lambda match:  colour_ship(match.group()[1]) , s_output)
+    s_output = re.sub(pattern, lambda match: REDON + match.group() + COLOUROFF , s_output)
     pattern = r'\[\-\]'
     s_output = re.sub(pattern, lambda match: GREENON + match.group() + COLOUROFF , s_output)
 
     print ( s_output )
         
-def is_sunk(s_code):
-    if ships[s_code]["Hits"] == ships[s_code]["Length"]:
-        return True
-    else: 
-        return False
-
-def colour_ship(s_code):
-    if is_sunk( s_code ):
-        return BLUEON  + '[' + s_code + ']' + COLOUROFF
-    else :
-        return REDON  + '[' + s_code + ']' + COLOUROFF
-
 #/// This places a pre defined array of ships in the grid. 
 def place_ships():
     for key, ship in ships.items():
