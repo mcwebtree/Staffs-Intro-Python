@@ -1,7 +1,7 @@
 # single ship battleship game. 
 
 ## DEBUG FLAG
-f_debug = 0
+f_debug = 2
 
 import pprint as pp
 import random as r
@@ -360,9 +360,9 @@ else:
     # Build the automatic ships array
     auto_ships=[]
     auto_ships.append({'Length': 5, 'Qty': 1})
-    auto_ships.append({'Length': 4, 'Qty': 2})
-    auto_ships.append({'Length': 3, 'Qty': 3})
-    auto_ships.append({'Length': 2, 'Qty': 4})
+    auto_ships.append({'Length': 4, 'Qty': 1})
+    auto_ships.append({'Length': 3, 'Qty': 2})
+    auto_ships.append({'Length': 2, 'Qty': 3})
 
 #   Setup the game
 board,targets = init_board( board_width , board_height )

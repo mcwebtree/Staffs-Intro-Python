@@ -1,7 +1,7 @@
 # single ship battleship game. 
 
 ## DEBUG FLAG
-f_debug = 0
+f_debug = 2
 
 import pprint as pp
 import random as r
