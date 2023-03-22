@@ -343,13 +343,8 @@ else:
     while len(user_board)!=3:
         user_board = input("Please enter the board dimensions RxC (e.g. 5x5, 4x9) [MIN 4x4, MAX 9x9]: ")
     
-    ## parse size and default to 5x5 if it fails. 
-    try:
-        board_height, board_width = int(user_board[0]), int(user_board[2])
-    except ValueError:
-        board_height, board_width = 5, 5
-        print ( "Invalid size entered - Defaulting to 5x5 ")
-        t.sleep( 3 )
+    ## parse size
+    board_height, board_width = int(user_board[0]), int(user_board[2])
     
     # sanitise sizes 
     if board_width < 4: board_width=4

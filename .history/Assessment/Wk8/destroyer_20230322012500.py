@@ -348,8 +348,6 @@ else:
         board_height, board_width = int(user_board[0]), int(user_board[2])
     except ValueError:
         board_height, board_width = 5, 5
-        print ( "Invalid size entered - Defaulting to 5x5 ")
-        t.sleep( 3 )
     
     # sanitise sizes 
     if board_width < 4: board_width=4
