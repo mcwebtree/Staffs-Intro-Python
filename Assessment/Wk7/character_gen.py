@@ -36,7 +36,7 @@ def show_stats(s_class = ""):
     
     print (RESET)
 
-    print ( 'Your abilities and the requirements for each class: ')
+    print ( 'Your skills and the requirements: ')
     print ( "-" * 80)
     print ( f"| {'Class':12}", end="|"  )
     for key in a_attributes:
@@ -218,7 +218,6 @@ i_target = 0
 
 randomise_attributes()
 show_stats()
-
 
 i_target=get_int("Please select your desired class :",1,4)
 
