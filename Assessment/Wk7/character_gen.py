@@ -189,9 +189,6 @@ def move_points(s_class):
     else:
         return "Q"
     
-        
-
-
 a_attributes = {"S": {"Name": "Strength", "Min": 3, "Max": 18, "Initial": 0, "Current": 0},
                 "I": {"Name": "Intelligence", "Min": 3, "Max": 18, "Initial": 0, "Current": 0},
                 "W": {"Name": "Wisdom","Min": 3, "Max": 18, "Initial": 0, "Current": 0},
