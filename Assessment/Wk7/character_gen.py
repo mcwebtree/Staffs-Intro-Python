@@ -227,7 +227,7 @@ if i_target > 0:
     print ( f"You require {req_p} extra points to become a {s_target}." )
 
     if int(req_p*2)>int(free_p):
-        print ( f"You only have {free_p} free points, (and you need {req_p*2}). \nSadly that's not enough free points to become an {s_target}. \nPlease try again.")
+        print ( f"You only have {free_p} free points, (and you need {req_p*2}). \nSadly that's not enough free points to become a {s_target}. \nPlease try again.")
     else :
         print ( f"You have {free_p} points available and you only need {req_p*2} free points!")
         
