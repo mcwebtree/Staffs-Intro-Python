@@ -7,6 +7,7 @@ import binascii
 import json 
 import time 
 import sys 
+import getpass as gp
 
 sys.path.append(os.path.abspath('..\\inc\\'))
 
@@ -27,18 +28,33 @@ class User:
     loggedin = 0
 
     def __init__(self, username):
-        self.username=username
+        self.username=username.upper()
         if username in a_users.keys():
             self.passwordhash=a_users[username]
         else:
             self.passwordhash=""
 
-        if username in a_lockout.keys():
-            if time.time() < a_lockout[username]["r"]:
+        if self.username in a_lockout.keys():
+            self.lockouts= a_lockout[self.username]["a"]
+            if time.time() < a_lockout[self.username]["r"]:
                 self.locked=1
-                self.lockout_release = a_lockout[username]["r"]
-                self.lockouts= a_lockout[username]["a"]
+                self.lockout_release = a_lockout[self.username]["r"]
        
+    def __str__(self):
+        ret_str=""
+        ret_str += "User: " + self.username + "\n"
+        if self.passwordhash == "":
+            ret_str += "Password: <not set>\n"
+        else:
+            ret_str += "Password: <set>\n"
+        if self.locked == 1:
+            ret_str += f"{s.REDON}Account is locked out until {self.lockout_release_str()}{s.COLOUROFF}\n"
+            ret_str += f"Account has been locked out {self.lockouts} times.\n"
+        else: 
+            ret_str += f'Account is unlocked and active\n'
+        return ret_str
+
+
 
     def check_password_complexity(self, password):
         valid_pass = 1
@@ -50,11 +66,11 @@ class User:
                     valid_pass = 0
             if self.allow_spaces == 0:
                 if " " in password:
-                    s_err += f"* No spaces"
+                    s_err += f"* No spaces\n"
                     valid_pass = 0
             if self.allow_leading_number == 0:
                 if password[0].isdigit():
-                    s_err += f"* Cannot begin with a number"
+                    s_err += f"* Cannot begin with a number\n"
                     valid_pass = 0     
         except: 
             pass
@@ -80,8 +96,7 @@ class User:
     def verify_password(self,provided_password):
         f_return = False
         if self.is_locked_out():
-            t_release = time.strftime("%d/%m/%Y %H:%M:%S", time.gmtime(self.lockout_release))
-            print ( f"Sorry your account is locked out until {t_release}.\nPlease try again later")
+            print ( f"{s.REDON}Sorry your account is locked out until {self.lockout_release_str()}{s.COLOUROFF}.\nPlease try again later")
         else:
             salt = self.passwordhash[:64]
             pwdhash = hashlib.pbkdf2_hmac('sha512', 
@@ -94,7 +109,7 @@ class User:
             if f_return==True:
                 self.loggedin = 1
             elif f_return == False:
-                print ( "Sorry that username / password combination wasn't recognised. \nPlease try again")
+                print ( f"{s.REDON}Sorry that username / password combination wasn't recognised.{s.COLOUROFF} \nPlease try again")
                 self.attempts += 1
                 if self.attempts >= self.attempt_limit:
                     # reset attempts
@@ -108,6 +123,9 @@ class User:
                     a_lockout[self.username] = {"r": self.lockout_release, "a": self.lockouts}
 
         return f_return
+
+    def lockout_release_str(self):
+         return time.strftime("%d/%m/%Y %H:%M:%S", time.gmtime(self.lockout_release))
 
     def is_locked_out(self):
         f_locked=0
@@ -151,20 +169,22 @@ load_file()
 #print (a_users)
 
 while True:
-    print ( "Password Verifier 2000 " )
+    print ( f"\n\n{s.ORANGEON}Password Verifier 2000{s.COLOUROFF}" )
     print ( "-----------------------")
     print ( "1. New User" )
     print ( "2. Existing User" )
     print ( "3. Print Users" )
+    print ( "4. Dump Current User Object" )
     print ( "0. Exit" )
     print ( "-----------------------")
     print ( "" )
-    i_menu = h.get_int("Please enter your selection",1,3)
+    i_menu = h.get_int("Please enter your selection",1,4)
     
     if i_menu == 0:
+        print ( f"\nThank you for using {s.ORANGEON}Password Verifier 2000{s.COLOUROFF}\n" )
         break
     elif i_menu == 1:
-        s_usr = input( "Please enter your username [Enter to quit]: ")
+        s_usr = input( "Please enter your username [Enter to quit]: ").upper()
         if s_usr=="":
             break 
 
@@ -177,10 +197,10 @@ while True:
         
         while True: 
                 print ( f"Please enter a password for new user {s_usr}")
-                s_p_1 = input ( "Please enter the new password: ")
+                s_p_1 = gp.getpass ( "Please enter the new password [Enter to abort]: ")
                 if s_p_1 == "":
                     break
-                s_p_2 = input ( "Please re-enter the new password: ")
+                s_p_2 = gp.getpass ( "Please re-enter the new password: ")
 
                 if s_p_1 == s_p_2:
                     if usr.check_password_complexity(s_p_1) == 1:
@@ -196,14 +216,15 @@ while True:
                     print (f"{s.REDON}Passwords do not match.{s.COLOUROFF}\nPlease try again")
     elif i_menu == 2:
                    
-        s_usr = input( "Please enter your username [Enter to quit]: ")
+        s_usr = input( "Please enter your username [Enter to quit]: ").upper()
         if s_usr=="":
             break 
      
-        print ( f"Welcome back {s_usr}.")
         if s_usr in a_users.keys():
             usr = User(s_usr)
-
+            
+            print ( f"\n{s.GREENON}Welcome back {s_usr}.{s.COLOUROFF}\n")
+            
             if usr.is_locked_out():
                 t_release = time.strftime("%d/%m/%Y %H:%M:%S", time.gmtime(usr.lockout_release))
                 print ( f"{s.REDON}Sorry your account is locked out until {t_release}.{s.COLOUROFF}\nPlease try again later")
@@ -212,16 +233,19 @@ while True:
             else:
                 f_loggedin=0
                 while usr.locked == 0 and usr.loggedin == 0: 
-                    s_pwd_try = input ( f"Please enter password for user {usr.username}: " )
+                    s_pwd_try = gp.getpass ( f"Please enter password for user {usr.username}: " )
                     if usr.verify_password(s_pwd_try) == True:
                         break
                 
                 if usr.loggedin == 1:
                     print ( f"{s.GREENON}Welcome to the Password Verifier 2000.{s.COLOUROFF}\n{s.ORANGEON}You successfully entered your username and password!{s.COLOUROFF}" )
+                    time.sleep ( 1 )
                 else: 
-                    print ( f"{s.REDON}{s.REVON}Password attempts limit exceeded.{s.REVOFF}{s.COLOUROFF} \nYour account has been locked for 60 seconds." )
+                    print ( f"{s.REDON}{s.REVON}Password attempts limit exceeded.{s.REVOFF}{s.COLOUROFF} \nYour account has been locked for {(usr.lockout_period * usr.lockouts)} seconds." )
+                    time.sleep ( 1 )
         else:
-            print ( f"{s.REDON}Username not found. Please try again{s.COLOUROFF}" )
+            print ( f"\n{s.REDON}Username not found. Please try again{s.COLOUROFF}\n" )
+            time.sleep (1)
     
     elif i_menu == 3:
         print ("System Users")
@@ -231,10 +255,24 @@ while True:
             usr = User(this_user)
             if usr.is_locked_out():
                 s_colour = s.REDON
+                s_timeout = f" on lockout {usr.lockouts} until {usr.lockout_release_str()} "
             else:
                 s_colour = s.GREENON
+                s_timeout = ""
 
-            print ( f"{s_colour}{usr.username}{s.COLOUROFF}" )
+            print ( f"{s_colour}{usr.username}{s.COLOUROFF} " + s_timeout)
 
         print ("------------")
         print ( "" )
+    elif i_menu == 4:
+        try:
+            print ("\nCurrent User Object")
+            print ("-------------------")
+            
+            print (usr)
+        except Exception as e: 
+            #print ( str(e))
+            print ( "No current user object" )
+            time.sleep ( 1 )
+        finally:
+            print ("")
