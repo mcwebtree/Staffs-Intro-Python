@@ -6,7 +6,7 @@ def get_int(input_prompt, min_val=int(1), max_val=int(100)):
 
     try:
         while not ((int_val >= min_val and int_val <= max_val)) :
-            get_val=input(input_prompt + f" (Min: {str(min_val)} Max: {str(max_val)} Exit: 0)")
+            get_val=input(input_prompt + f" (Min: {str(min_val)} Max: {str(max_val)} Exit: 0): ")
             int_val=int(get_val)
 
             ## exit if select 0
