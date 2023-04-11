@@ -23,8 +23,8 @@ spare_after = max_bw_b - current_usage - new_app_demands
 print ( "Bandwidth guesstimator 1000 ")
 print ( "-" * 30 )
 
-print ( f'Maximum network bandwidth is { max_bw_b } bps')
-print ( f'Current network usage is { current_usage } bps' )
-print ( f'Current availability is { free_capacity } bps' )
-print ( f'New application requirements are { new_app_demands } bps')
-print ( f'Spare Bandwidth available is new app deployed is { spare_after / m_in_b } Mbps ')
+print ( f'Maximum network bandwidth is { max_bw_b:,.0f} bps')
+print ( f'Current network usage is { current_usage:,.0f} bps' )
+print ( f'Current availability is { free_capacity:,.0f} bps' )
+print ( f'New application requirements are { new_app_demands:,.0f} bps')
+print ( f'Spare Bandwidth available is new app deployed is { spare_after / m_in_b:,.2f} Mbps ')
