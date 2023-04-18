@@ -21,6 +21,4 @@ str_town = input ( "Please enter your town" )
 
 print ( "Address Label Creator" )
 print ( "-" * 22)
-print ( f'{str_salutation} {str_name}')
-print ( f'{str(int_house_number)} {str_road}')
-print ( f'{str_town}')
+print ( f'{str_salutation} {str_name},\n{str(int_house_number)}, {str_road}\n{str_town}')

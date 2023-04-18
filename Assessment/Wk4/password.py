@@ -7,4 +7,6 @@ valid_pass="CorrectHorseBatteryStaple"
 test_pass=input("Please enter the password: ")
 
 if valid_pass.upper()==test_pass.upper():
-    print ( "Welcome to the Realms of XKCD" )
+    print ( "Welcome to the Realms of XKCD. [https://xkcd.com/936/]" )
+else:  
+    print ( "Sorry that password is incorrect.")
