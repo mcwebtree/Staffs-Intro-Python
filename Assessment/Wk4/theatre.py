@@ -44,13 +44,10 @@ def get_y_n ( input_prompt ):
         return return_value
 
 
-
 # inits
 costs = { 'Adult' : 10.50 , 'Child' : 7.30 , 'Conc' : 8.40 }
 num_kids_for_free_adult = 10
-
 discount = { 'minimum_spend': float(100.00), 'discount' : int(10) }
-
 the_p_n_p_cost = float(2.34)
 
 # welcome
@@ -82,74 +79,83 @@ if num_free_conc>num_conc:
 num_paying_adults=num_adults-num_free_adults
 num_paying_conc=num_conc-num_free_conc
 
-ticket_values={"Adult": 0, "Conc": 0 , "Child": 0}
-ticket_values["Adult"] = num_paying_adults * costs["Adult"]
-ticket_values["Conc"] = num_paying_conc * costs["Conc"]
-ticket_values["Child"] = num_kids * costs["Child"]
+# check they have adults to cover the kids
+if num_kids == num_in_party:
+    print ("Invalid order. All children must have at least one adult attending.")
+    print ("Please try to place your order again. ")
+else:
+    # output the receipt. 
+    ticket_values={"Adult": 0, "Conc": 0 , "Child": 0}
+    ticket_values["Adult"] = num_paying_adults * costs["Adult"]
+    ticket_values["Conc"] = num_paying_conc * costs["Conc"]
+    ticket_values["Child"] = num_kids * costs["Child"]
 
-ttl_bill_pre_discount = ( ticket_values["Adult"] ) + \
-                        ( ticket_values["Conc"] ) + \
-                        ( ticket_values["Child"] )
+    ttl_bill_pre_discount = ( ticket_values["Adult"] ) + \
+                            ( ticket_values["Conc"] ) + \
+                            ( ticket_values["Child"] )
 
-# calculate discount
-discount_percentage = 0
-bill_discount = 0
-if ttl_bill_pre_discount > discount["minimum_spend"] : 
-    discount_percentage=discount["discount"]
-    bill_discount = ttl_bill_pre_discount * ( discount_percentage / 100 )
+    # calculate discount
+    discount_percentage = 0
+    bill_discount = 0
+    if ttl_bill_pre_discount > discount["minimum_spend"] : 
+        discount_percentage=discount["discount"]
+        bill_discount = ttl_bill_pre_discount * ( discount_percentage / 100 )
 
-# calculate delivery
+    # calculate delivery
 
-if is_collection == "Y" :
-    p_n_p_cost=0
-else :
-    p_n_p_cost=the_p_n_p_cost
+    if is_collection == "Y" :
+        p_n_p_cost=0
+    else :
+        p_n_p_cost=the_p_n_p_cost
 
-bill_total=ttl_bill_pre_discount - bill_discount + p_n_p_cost
+    bill_total=ttl_bill_pre_discount - bill_discount + p_n_p_cost
 
-# generate bill reference 
-bill_ref=str(time.time())[3:10]
+    # generate bill reference 
+    bill_ref=str(time.time())[3:10]
 
-# output bill 
-print ( )
-print ( "The Sandford Paladium")
-print ( "*" * 21 )
-print ()
+    # output bill 
+    print ( )
+    print ( "The Sandford Paladium")
+    print ( "*" * 21 )
+    print ()
 
-print ( f'{num_in_party} Tickets for Snakes! The Musical' )
-print ( f'{"Order Ref: " + bill_ref:>36}')
-print ( '-' * 36 )
-if is_collection == "Y" :
-    print ( "*" * 9, "   COLLECTION   ", "*" * 9 )
+    print ( f'{num_in_party} Tickets for Snakes! The Musical' )
+    print ( f'{"Order Ref: " + bill_ref:>36}')
     print ( '-' * 36 )
+    if is_collection == "Y" :
+        print ( "*" * 9, "   COLLECTION   ", "*" * 9 )
+        print ( '-' * 36 )
 
-if num_adults > 0:
-    print ( f'{num_adults:3} {"Adult":12} ' )
-    if num_paying_adults > 0 : print ( ' ' * 12 , f'{num_paying_adults:3} @ £{costs["Adult"]:5.2f} = £{ ticket_values["Adult"]:7.2f} ')
-    if num_free_adults > 0 : print ( ' ' * 12 , f'{num_free_adults:3} @ £{0:5.2f} = £{0:7.2f} ')
-    print ( "" )
+    if num_adults > 0:
+        print ( f'{num_adults:3} {"Adult":12} ' )
+        if num_paying_adults > 0 : print ( ' ' * 12 , f'{num_paying_adults:3} @ £{costs["Adult"]:5.2f} = £{ ticket_values["Adult"]:7.2f} ')
+        if num_free_adults > 0 : print ( ' ' * 12 , f'{num_free_adults:3} @ £{0:5.2f} = £{0:7.2f} ')
+        print ( "" )
 
-if num_conc > 0: 
-    print ( f'{num_conc:3} {"Concessions":12} ' )
-    if num_paying_conc > 0 : print ( ' ' * 12 , f'{num_paying_conc:3} @ £{costs["Conc"]:5.2f} = £{ ticket_values["Conc"]:7.2f} ')
-    if num_free_conc > 0 : print ( ' ' * 12 , f'{num_free_conc:3} @ £{0:5.2f} = £{ 0:7.2f} ')
-    print ( "" )
+    if num_conc > 0: 
+        print ( f'{num_conc:3} {"Concessions":12} ' )
+        if num_paying_conc > 0 : print ( ' ' * 12 , f'{num_paying_conc:3} @ £{costs["Conc"]:5.2f} = £{ ticket_values["Conc"]:7.2f} ')
+        if num_free_conc > 0 : print ( ' ' * 12 , f'{num_free_conc:3} @ £{0:5.2f} = £{ 0:7.2f} ')
+        print ( "" )
 
-if num_kids > 0 : 
-    print ( f'{num_kids:3} {"Child":12} @ £{costs["Child"]:5.2f} = £{ ticket_values["Child"]:7.2f} ')
-    if num_kids > 9 : print ( f"    (Includes {num_free_adults+num_free_conc} free chaperones)")
-    print ( "" )
+    if num_kids > 0 : 
+        print ( f'{num_kids:3} {"Child":12} @ £{costs["Child"]:5.2f} = £{ ticket_values["Child"]:7.2f} ')
+        s_plural=""
+        if num_free_adults+num_free_conc > 1:
+            s_plural="s" 
+        if num_kids > 9 : print ( f"    (Includes {num_free_adults+num_free_conc} free chaperone{s_plural})")
+        print ( "" )
 
-print ( ' ' * 27, '=' * 8 )
+    print ( ' ' * 27, '=' * 8 )
 
-if discount_percentage > 0 :
-    print ( ' ' * 9 , f'{"Sub Total":17} £{ttl_bill_pre_discount:7.2f}' )
-    print ( ' ' * 9 , f'{"Discount (" + str(discount["discount"]) + "%)":17} £{bill_discount:7.2f}' )
-    print ( ' ' * 27, '-' * 8 )
-    
-if p_n_p_cost > 0 :
-    print ( ' ' * 9 , f'{"Postage":17} £{p_n_p_cost:7.2f}' )
-    print ( ' ' * 27, '-' * 8 )
-    
-print ( ' ' * 9 , f'{"Total":17} £{bill_total:7.2f}' )
-print ( ' ' * 27, '=' * 8 )
+    if discount_percentage > 0 :
+        print ( ' ' * 9 , f'{"Sub Total":17} £{ttl_bill_pre_discount:7.2f}' )
+        print ( ' ' * 9 , f'{"Discount (" + str(discount["discount"]) + "%)":17} £{bill_discount:7.2f}' )
+        print ( ' ' * 27, '-' * 8 )
+        
+    if p_n_p_cost > 0 :
+        print ( ' ' * 9 , f'{"Postage":17} £{p_n_p_cost:7.2f}' )
+        print ( ' ' * 27, '-' * 8 )
+        
+    print ( ' ' * 9 , f'{"Total":17} £{bill_total:7.2f}' )
+    print ( ' ' * 27, '=' * 8 )
